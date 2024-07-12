@@ -1,1 +1,1 @@
-
+.env -> OPENAI_API_KEY = <insert OpenAI key here>
