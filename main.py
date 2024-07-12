@@ -39,11 +39,15 @@ class LoadingAnimation:
 def get_query():
     query = text_box.get("1.0", tk.END).strip()
     if query:
+        response_label.config(fg=white_color)
         send_button.config(state=tk.DISABLED)
         loading_animation.start()
         Thread(target=process_query, args=(query,)).start()
+        user_text_label.config(text=f"You: {query}")
+        text_box.delete("1.0", tk.END)
     else:
-        response_label.config(text="Please enter a query.")
+        response_label.config(text="Please enter a query.", fg=red_color)
+        user_text_label.config(text="")
 
 
 def process_query(query):
@@ -52,7 +56,7 @@ def process_query(query):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system",
-                 "content": "You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
+                 "content": "You are code.ine. You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
                 {"role": "user", "content": query}
             ]
         )
@@ -75,12 +79,18 @@ def update_response():
 
 
 root = tk.Tk()
-root.geometry("800x800")
+root.geometry("800x400")
 root.title("code.ine")
 
 response_queue = queue.Queue()
 
-title_label = tk.Label(root, text="code.ine")
+purple_color = "#9F00FF"
+red_color = "#FF0000"
+black_color = "#000000"
+white_color = "#FFFFFF"
+
+
+title_label = tk.Label(root, text="{code.ine}", fg=purple_color, font=("SpaceMono-Regular", 16, "bold"))
 title_label.pack(padx=10, pady=10)
 
 text_box = tk.Text(root, width=50, height=10)
@@ -88,6 +98,9 @@ text_box.pack(padx=10, pady=10)
 
 send_button = tk.Button(root, text="->", command=get_query)
 send_button.pack(padx=10, pady=10)
+
+user_text_label = tk.Label(root, text="")
+user_text_label.pack(padx=10, pady=10)
 
 response_label = tk.Label(root, text="", wraplength=780)
 response_label.pack(padx=10, pady=10)
