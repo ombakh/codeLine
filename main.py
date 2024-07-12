@@ -8,20 +8,23 @@ client = OpenAI()
 
 
 def get_query():
-  query = text_box.get("1.0", tk.END)
+  query = text_box.get("1.0", tk.END).strip()  # Retrieve content from the text box
   if query:
-    completion = client.chat.completions.create(
-      model="gpt-3.5-turbo",
-      messages=[
-        {"role": "system",
-         "content": "You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
-        {"role": "user", "content": f"{get_query()}"}
-      ]
-    )
-    response = completion.choices[0].message["content"]
-    response_label.config(text=response)
+    try:
+      completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+          {"role": "system",
+           "content": "You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
+          {"role": "user", "content": query}
+        ]
+      )
+      response = completion.choices[0].message["content"]
+      response_label.config(text=response)  # Update response label
+    except Exception as e:
+      response_label.config(text=f"Error: {str(e)}")  # Display error message
   else:
-    response_label.config(fg="red", text="Please enter your query")
+    response_label.config(text="Please enter a query.")
 
 
 #Creates window
@@ -42,7 +45,7 @@ send_button.pack(padx=10, pady=10)
 
 
 #Creates response label
-response_label = tk.Label(root, text="RESPONSE HERE")
+response_label = tk.Label(root, text="")
 response_label.pack(padx=10, pady=10)
 
 
