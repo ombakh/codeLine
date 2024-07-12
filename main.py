@@ -10,7 +10,7 @@ completion = client.chat.completions.create(
   model="gpt-3.5-turbo",
   messages=[
     {"role": "system", "content": "You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
-    {"role": "user", "content": ""}
+    {"role": "user", "content": "What is the fastest way to write insertion sort in python"}
   ]
 )
 
@@ -34,13 +34,13 @@ text_box.pack(padx=10, pady=10)
 send_button = tk.Button(root, text="->", command=get_query)
 send_button.pack(padx=10, pady=10)
 
+response = completion.choices[0].message
 #Creates response label
-response_label = tk.Label(root, text="This is where the response will be displayed.")
+response_label = tk.Label(root, text=response)
 response_label.pack(padx=10, pady=10)
 
 
 root.mainloop()
-
 
 
 print(completion.choices[0].message)
