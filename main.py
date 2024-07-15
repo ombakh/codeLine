@@ -98,7 +98,7 @@ chat_display = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=80, height=20
 chat_display.pack(padx=10, pady=10)
 chat_display.config(state=tk.DISABLED)
 
-text_box = tk.Text(root, width=80, height=3)
+text_box = tk.Text(root, width=80, height=1, font=("Arial", 24))
 text_box.pack(padx=10, pady=10)
 
 send_button = tk.Button(root, text="?", command=get_query, fg=white_color, bg=black_color, font=("Arial", 16, "bold"))
