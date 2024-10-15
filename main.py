@@ -28,7 +28,7 @@ class LoadingAnimation:
     def animate(self):
         if self.is_animating:
             frame = next(self.frames)
-            self.label.config(text=f"code.ine\n{frame}")
+            self.label.config(text=f"codeLine\n{frame}")
             self.label.after(100, self.animate)
 
     def start(self):
@@ -55,7 +55,7 @@ def process_query(query):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system",
-                 "content": "You are code.ine. You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
+                 "content": "You are codeLine. You are an extremely knowledgeable and highly educated assistant. You are extremely skilled at writing programs and helping debug."},
                 {"role": "user", "content": query}
             ]
         )
@@ -69,7 +69,7 @@ def update_response():
     try:
         response = response_queue.get_nowait()
         loading_animation.stop()
-        display_message(f"code.ine: {response}")
+        display_message(f"codeLine: {response}")
     except queue.Empty:
         pass
     finally:
@@ -85,20 +85,21 @@ def display_message(message, color=white_color):
 
 root = tk.Tk()
 root.geometry("800x600")
-root.title("code.ine")
+root.title("codeLine")
 
 response_queue = queue.Queue()
 
 
 
-title_label = tk.Label(root, text="{code.ine}", fg=purple_color, font=("SpaceMono-Regular", 16, "bold"))
+title_label = tk.Label(root, text="{codeLine}", fg=purple_color, font=("SpaceMono-Regular", 16, "bold"))
 title_label.pack(padx=10, pady=10)
 
 chat_display = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=80, height=20, bg=black_color, fg=white_color)
 chat_display.pack(padx=10, pady=10)
 chat_display.config(state=tk.DISABLED)
 
-text_box = tk.Text(root, width=80, height=1, font=("Arial", 24))
+
+text_box = tk.Text(root, width=80, height=4, font=("Arial", 24))
 text_box.pack(padx=10, pady=10)
 
 send_button = tk.Button(root, text="?", command=get_query, fg=white_color, bg=black_color, font=("Arial", 16, "bold"))
